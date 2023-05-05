@@ -68,6 +68,11 @@ To active the encoder, hold down (connect it to ground) GP28 at boot.
 You can keep both the encoder and the buttons connected at the same time, it won't 
 interfere with one another.    
   
+<B>NOTE</B>:  For better experience I recommend setting the "Paddle Autocenter Speed" to
+<B>0<B> in MAME's configuration, otherwise the wheels will always center and you won't be
+able to hold the steering position.  
+  
+  
 <hr>
 <h3>How to build the code with your own modifications:</h3>  
   

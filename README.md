@@ -69,6 +69,10 @@ conectado no GND.
   
 Você pode manter tanto o encoder quanto o direcional conectados ao mesmo tempo.  
   
+<B>NOTA</B>: Recomendo setar a opção "Paddle Autocenter Speed" para <B>0<B> na configuração
+do MAME. Caso contrário, o volante vai ficar constantemente voltando a zero e você não
+conseguirá manter a posição ativa.  
+  
 <hr>
 <h3>Como compilar com suas próprias alterações:</h3>  
   

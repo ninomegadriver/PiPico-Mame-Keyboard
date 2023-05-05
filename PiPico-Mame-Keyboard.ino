@@ -45,7 +45,8 @@
 // Encoder Objects
 RotaryEncoder *encoder;
 RotaryEncoder::Direction currentDirection, lastDirection;
-
+uint8_t encoderActive = 0, encoderKey = 0;
+long encoderTimer = 0;
 bool useEncoder = false;
 
 // Holds key state;
@@ -115,31 +116,43 @@ void loop() {
 
   // If using encoder, process it!
   if(useEncoder == true){
-    
-    // Update encoder status
+
+    // Process the encoder
     encoder->tick();
 
-    // get the current Direction
+    // Get the Current EncoderDirection
     currentDirection = encoder->getDirection();
 
-    // If it changed, act!
-    if(currentDirection != lastDirection){
-      if(currentDirection == RotaryEncoder::Direction::CLOCKWISE) {
-        delay(8);
-        Keyboard.press(KEY_RIGHT_ARROW);
-        delay(8);
-        Keyboard.release(KEY_RIGHT_ARROW);
-        delay(8);
+    
+    if(currentDirection == RotaryEncoder::Direction::NOROTATION){ // if it's stopped, trigger a timer to release any arrow press
+      if(encoderActive == 1 && micros() > encoderTimer + 100000){ // if it's idle for more than 100ms, release the last arrow key pressed
+        Keyboard.release(encoderKey);
+        delay(10);
+        encoderActive = 0;
+        encoderKey = 0;
       }
-      if(currentDirection == RotaryEncoder::Direction::COUNTERCLOCKWISE) {
-        delay(8);
-        Keyboard.press(KEY_LEFT_ARROW);
-        delay(8);
-        Keyboard.release(KEY_LEFT_ARROW);
-        delay(8);
+    }else{
+      
+      // We're scrolling, so keep the idle timer active
+      encoderTimer = micros();
+      encoderActive = 1;
+      
+      if(currentDirection == RotaryEncoder::Direction::CLOCKWISE) { // We're going RIGHT
+        if(encoderKey != KEY_RIGHT_ARROW){ // Check if the arrow key is not already pressed
+          Keyboard.release(encoderKey);    // Release the last pressed arrow key
+          delay(8);                        // Give it some time for the host to compute
+          encoderKey = KEY_RIGHT_ARROW;    // Register the new current arrow key
+          Keyboard.press(encoderKey);      // And press it!
+        }
+      }else if(currentDirection == RotaryEncoder::Direction::COUNTERCLOCKWISE) {
+        if(encoderKey != KEY_LEFT_ARROW){
+          Keyboard.release(encoderKey);
+          delay(8);
+          encoderKey = KEY_LEFT_ARROW;
+          Keyboard.press(encoderKey);
+        }
       }
-      lastDirection = currentDirection;
-    }    
+    }  
   }
 
   // Process all GPs
