@@ -5,7 +5,7 @@
 <h3>Como instalar:</h3>  
   
   - Conecte sua Pico no PC segurando o botão "boot"  
-  - Depois que um novo drive removível aparecer, copie o arquivo "PiPico-Mame-Keyboard.uf2"   para a pasta base dessa nova unidade.  
+  - Depois que um novo drive removível aparecer, copie o arquivo ["PiPico-Mame-Keyboard.uf2"](https://github.com/ninomegadriver/PiPico-Mame-Keyboard/raw/main/PiPico-Mame-Keyboard.uf2)   para a pasta base dessa nova unidade.  
   - Pronto!
   
 <hr>
